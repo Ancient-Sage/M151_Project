@@ -138,10 +138,11 @@ export default {
                 clearInterval(this.swinterval);
                 setTimeout(function(){
                     var nickname = prompt("Please enter your name:", "");
-                    if (nickname == null || nickname == "") {
+                    if (nickname === null || nickname === "") {
                         //console.log("This isn't empty!")
                     } else {
-                        //console.log(nickname,app.guesses.length,app.timer)
+                        var tries = app.guesses.length;
+                        this.addEntry(this.nickname,tries,this.timer)
                     }
                    
                     
@@ -200,14 +201,14 @@ export default {
             }
             this.timer = (now.getTime() - this.timerstart);
         },
-        async addEntry() {
+        async addEntry(nick, guesses, counter) {
             let score = {
-                nick: this.nickname,
-                guesses: this.guesses.length,
-                counter: this.timer
+                name: nick,
+                tries: guesses,
+                time: counter
             }
             this.keep.push(score)
-            let result = await axios.post('/api/score', {nick: score.name, guesses: score.tries, counter: score.time})
+            let result = await axios.post('/api/score', {name: score.name, tries: score.tries, time: score.time})
             score.id = result.data[0]
         }
   },
