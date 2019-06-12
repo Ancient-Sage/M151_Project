@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <title>Mastermind</title>
+        <link rel="stylesheet" type="text/css" href="mastermindstyle.css" media="screen" />
+    </head>
+    <body>
+        <div id="app" ><!-- Zugrifsbereich für Vue.js -->
+            <header>
+                <h1>MASTERMIND</h1><button id="manual" @click="manualcontrol()" >Anleitung</button>
+                <p v-if="manual === true"> 
+                    Zu beginn des Spiels wird ein Vierstelliger Farbcode aus je sechs verschiedenen Farben generiert, wobei eine Farbe auch mehrmals vorkommen kann.
+                    Ihre Aufgabe ist nun diesen Farbcode mittels Logik zu erraten. Die Position der Farben spielt eine Rolle.
+                    Sie erhalten rechts von ihrem Code schwarze und/oder Weisse Kugeln die ihnen als Grundlage für Schlussfolgerungen dienen.
+                    Eine schwarze Kugel bedeutet, dass eine Farbe aus ihrem Code an der richtigen Position ist.
+                    Eine weisse Kugel bedeutet, dass eine Farbe im Code vorkommt aber noch nicht an der richtigen Position ist.
+                </p>
+            </header>
+        
+            <div class="line" v-for="(g,index) in guesses"><!-- sorgt dafür das eine neue Reihe entstehen kann -->
+                <div class="sieg col-2" v-for="l in wintext"><!-- gibt den Gewinn Text SIEG aus und sorgt dafür das nur ein div statt 4 benötigt wird -->
+                    <div class="ball" v-bind:style="'background-color: '+guesses[index][wintext.indexOf(l)]+';'"><!-- erstellt ein div und gibt ihm seine Farbe -->
+                        <h1 class="wintxt" v-if="index === guesses.length-1 && win && !surrendered">{{l}}</h1><!-- gibt den Gewinn Text SIEG aus -->
+                        <div class="dropcontent" v-if="index === guesses.length-1 && !win"><!-- mit diesen Knöpfen wird die Farbe geändert -->
+                            <button class="btn-1" @click="cchange(index,wintext.indexOf(l),4)">Schwarz</button>
+                            <button class="btn-2" @click="cchange(index,wintext.indexOf(l),2)">Blau</button>
+                            <button class="btn-3" @click="cchange(index,wintext.indexOf(l),3)">Gelb</button>
+                            <button class="btn-4" @click="cchange(index,wintext.indexOf(l),0)">Rot</button>
+                            <button class="btn-5" @click="cchange(index,wintext.indexOf(l),5)">Orange</button>
+                            <button class="btn-6" @click="cchange(index,wintext.indexOf(l),1)">Grün</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="tippsfield col-2"><!-- hier werden die Hinweise angezeigt -->
+                    <div class="tipp" v-bind:style="'background-color: '+hints[index][0]+';'"></div>
+                    <div class="tipp" v-bind:style="'background-color: '+hints[index][1]+';'"></div>
+                    <div class="tipp" v-bind:style="'background-color: '+hints[index][2]+';'"></div>
+                    <div class="tipp" v-bind:style="'background-color: '+hints[index][3]+';'"></div>
+                </div>
+                <button class="cb col-2" @click="check(index)" v-if="index === guesses.length-1 && win === false">PRÜFEN</button><!-- mit diesem Knopf lässt sich die Eingabe überprüfen -->
+                <button class="cb col-2" @click="surrender(index)" v-if="index === guesses.length-1 && win === false">AUFGEBEN</button>
+                <button class="cb col-2" @click="neuladen()" v-if="index === guesses.length-1 && win === true">NEUSTART</button>
+                <div id="count" v-if="index === guesses.length-1 && surrendered === false">{{index+1}}</div>
+            </div>
+            <div id="wbfooter"></div><!-- dient als simple anpassung des Viewpoints -->
+        </div> 
+        <script   language="javascript" type="text/javascript" src="mastermindengine.js"></script>
+    </body>
+</html>

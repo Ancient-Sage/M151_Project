@@ -1,0 +1,16 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend to M151 Project",
+  "main": "index.js",
+  "scripts": {
+    "repl": "node -e \"let knex = require('./db/knex.js')\" --experimental-repl-await -i"
+  },
+  "author": "Nowlan Birbaumer, David Lehmann",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "knex": "^0.17.5",
+    "sqlite3": "^4.0.8"
+  }
+}
