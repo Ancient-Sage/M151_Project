@@ -135,6 +135,7 @@ export default {
                 this.win = true
             }
             if(this.win && !this.surrendered){
+                var app = this
                 clearInterval(this.swinterval);
                 setTimeout(function(){
                     var nickname = prompt("Please enter your name:", "");
@@ -142,7 +143,7 @@ export default {
                         //console.log("This isn't empty!")
                     } else {
                         var tries = app.guesses.length;
-                        this.addEntry(this.nickname,tries,this.timer)
+                        app.addEntry(nickname,tries,app.timer);
                     }
                    
                     
@@ -184,7 +185,7 @@ export default {
             clearInterval(this.swinterval);
             this.guesses[i] = this.sccode // ersetzt den ratecode durch den geheimcode, damit das Spiel als gewonnen angesehen und beendet wird.
             //this.wintext = ["L","O","S","T"] // Da das Spiel durch eine Aufgabe nicht gewonnen wird, wird der gewinntext ersetzt.
-            this.surrendered = true // signalisiert dass das Spiel per aufgabe beendet wurde
+            //this.surrendered = true // signalisiert dass das Spiel per aufgabe beendet wurde
             this.check(i) // löst die normale überprüfung aus  
         },
         manualcontrol: function(){
@@ -207,9 +208,7 @@ export default {
                 tries: guesses,
                 time: counter
             }
-            this.keep.push(score)
-            let result = await axios.post('/api/score', {name: score.name, tries: score.tries, time: score.time})
-            score.id = result.data[0]
+            await axios.post('/api/score', score)
         }
   },
   filters: {

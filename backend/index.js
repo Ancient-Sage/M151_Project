@@ -12,12 +12,12 @@ app.get('/api/score', async (req, res) =>{
     res.json(results)
 })
 
-app.post('api/score', async (req, res) =>{
+app.post('/api/score', async (req, res) =>{
     let results = await knex('score')
-                        .insert({name: req.body.name},
-                                {tries: req.body.tries},
-                                {time: req.body.time})
-                                //{creation_date: req.body.creation_date})
+                        .insert({name: req.body.name,
+                                tries: req.body.tries,
+                                time: req.body.time,
+                                creation_date: Date.now()})
     res.json(results)
 })
 
