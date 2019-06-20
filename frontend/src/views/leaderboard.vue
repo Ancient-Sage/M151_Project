@@ -6,7 +6,7 @@
         <div class="block" v-for="(o,index) in aliens" v-bind:key="(o,index)" :style="'width:'+ width +'%; height: '+height+'px;'">
             <div :class="{blk: true, v1: (index === 0), v2: (index === 1), v3: (index === 2), vother: (index > 2)}" :style="{backgroundColor: o.color,}">
                 <div id="place">{{index + 1}}</div> 
-                <div id="name">{{o.name|nameajust}}</div> 
+                <div id="name">{{o.name}}</div> 
                 <div id="tries">{{o.tries}}</div> 
                 <div id="time">{{o.time|timetranslater}}</div>
             </div>
@@ -33,13 +33,6 @@ export default {
       }
       var min = Math.floor(t/(60000))%60
       return min + ":" + sec
-    },
-    nameajust: function(n){
-      n = n.trim()
-      if(n.length>20){
-        n = n.slice(0, 20)+"...";
-      }
-      return n 
     }
   },
   methods: {
@@ -89,6 +82,10 @@ h1{
 #name{
     width: 50%;
     word-break: break-all;
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+    overflow: hidden;
 }
 #tries{
     width: 12.5%;
